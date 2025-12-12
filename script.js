@@ -16,48 +16,41 @@ async function startBlowingDetection() {
       analyser.getByteFrequencyData(dataArray);
       const volume = dataArray.reduce((a, b) => a + b) / dataArray.length;
 
-      // If you blow hard enough
-      if (volume > 80 && blownCount < 9) {
+      if (volume > 78 && blownCount < 9) {
         const flame = flames[blownCount];
         flame.classList.add('extinguished');
         
-        // Add smoke
         const smoke = document.createElement('div');
         smoke.classList.add('smoke');
         flame.parentElement.appendChild(smoke);
         
         blownCount++;
-        
+
         if (blownCount === 9) {
           setTimeout(() => {
             document.getElementById('wishMessage').classList.add('show');
-            document.querySelector('.cake').style.animation = 'none';
-          }, 1500);
+            document.getElementById('poopCake').style.animation = 'none';
+          }, 1800);
         }
       }
       requestAnimationFrame(detectBlow);
     }
     detectBlow();
   } catch (err) {
-    alert("Please allow microphone access to blow out the candles! 🎤");
+    alert("Mic access needed to blow out the candles! Otherwise just tap them 😄");
   }
 }
 
-// Start when page loads
-window.onload = () => {
-  setTimeout(startBlowingDetection, 2000);
-};
+window.onload = () => setTimeout(startBlowingDetection, 1500);
 
-// Optional: click on flame to blow it out (for phones without mic)
-flames.forEach((flame, index) => {
+// Tap fallback for phones
+flames.forEach((flame, i) => {
   flame.addEventListener('click', () => {
-    if (blownCount === index) {
+    if (blownCount === i) {
       flame.classList.add('extinguished');
       blownCount++;
       if (blownCount === 9) {
-        setTimeout(() => {
-          document.getElementById('wishMessage').classList.add('show');
-        }, 1000);
+        setTimeout(() => document.getElementById('wishMessage').classList.add('show'), 1200);
       }
     }
   });
