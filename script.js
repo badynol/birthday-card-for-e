@@ -1,48 +1,71 @@
 const flames = document.querySelectorAll('.flame');
 let blown = 0;
+let micAllowed = false;
 
-async function start() {
+// Один-единственный запрос микрофона
+async function initMic() {
   try {
-    await navigator.mediaDevices.getUserMedia({ audio: true });
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    micAllowed = true;
+
     const audioCtx = new AudioContext();
     const analyser = audioCtx.createAnalyser();
-    const source = audioCtx.createMediaStreamSource(
-      await navigator.mediaDevices.getUserMedia({ audio: true })
-    );
+    const source = audioCtx.createMediaStreamSource(stream);
     source.connect(analyser);
     analyser.fftSize = 256;
     const data = new Uint8Array(analyser.frequencyBinCount);
 
-    const blow = () => {
+    const checkBlow = () => {
+      if (blown >= 3) return;
       analyser.getByteFrequencyData(data);
-      const volume = data.reduce((a,b)=>a+b)/data.length;
-      if (volume > 90 && blown < 3) {
-        flames[blown].classList.add('extinguished');
-        const smoke = document.createElement('div');
-        smoke.classList.add('smoke');
-        flames[blown].parentElement.appendChild(smoke);
-        blown++;
-        if (blown === 3) {
-          setTimeout(()=>document.getElementById('wishMessage').classList.add('show'), 2000);
-        }
+      const volume = data.reduce((a,b) => a+b) / data.length;
+
+      if (volume > 95) {           // чуть поднял порог, чтобы не срабатывало от шума
+        blowOutNext();
       }
-      requestAnimationFrame(blow);
+      requestAnimationFrame(checkBlow);
     };
-    blow();
-  } catch(e) {
-    console.log("Mic blocked – tap works instead");
+    checkBlow();
+
+  } catch (e) {
+    micAllowed = false;
+    console.log("Микрофон заблокирован — будет работать только тап");
   }
 }
 
-window.onload = () => setTimeout(start, 1000);
+// Зажечь следующую свечу
+function blowOutNext() {
+  if (blown >= 3) return;
 
-// Tap works perfectly on phone
-flames.forEach((f,i) => {
-  f.addEventListener('click', () => {
-    if (blown === i) {
-      f.classList.add('extinguished');
-      blown++;
-      if (blown===3) setTimeout(()=>document.getElementById('wishMessage').classList.add('show'),1500);
-    }
+  flames[blown].classList.add('extinguished');
+
+  // дым
+  const smoke = document.createElement('div');
+  smoke.classList.add('smoke');
+  flames[blown].parentElement.appendChild(smoke);
+
+  blown++;
+
+  if (blown === 3) {
+    setTimeout(() => {
+      document.getElementById('wishMessage').classList.add('show');
+      document.querySelector('.toilet').style.animationPlayState = 'paused';
+    }, 1800);
+  }
+}
+
+// Запуск при загрузке страницы
+window.addEventListener('load', () => {
+  setTimeout(initMic, 1000);
+
+  // Тап по пламени (работает даже без микрофона)
+  flames.forEach((flame, i) => {
+    flame.addEventListener('click', () => {
+      if (blown === i) blowOutNext();
+    });
+    flame.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (blown === i) blowOutNext();
+    });
   });
 });
