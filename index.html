@@ -3,47 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Поздравляю, Эдиски ❤️</title>
+  <title>Поздравляю, ТЫ ПОКАКАЛ! 💩</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="container">
-    <h1>Ты покакал!</h1>
-    <p>Загадай желание и задуй свечи... ❤️</p>
+    <h1>ПОЗДРАВЛЯЮ!</h1>
+    <p class="subtitle">Ты покакал!!! 🎉</p>
+    <p>Теперь загадай желание и задуй туалетные свечи...</p>
     
     <div class="scene">
-      <div class="cake">
-        <div class="layer bottom"></div>
-        <div class="layer middle"></div>
-        <div class="layer top"></div>
-        <div class="icing"></div>
+      <div class="cake" id="poopCake">
+        <!-- Poop emoji cake made of 3 swirls -->
+        <div class="poop-layer layer3"></div>
+        <div class="poop-layer layer2"></div>
+        <div class="poop-layer layer1"></div>
+        
+        <!-- Toilet paper candles (9 of them) -->
         <div class="candles">
-          <!-- 9 candles -->
-          <div class="candle"><div class="flame" id="flame1"></div></div>
-          <div class="candle"><div class="flame" id="flame2"></div></div>
-          <div class="candle"><div class="flame" id="flame3"></div></div>
-          <div class="candle"><div class="flame" id="flame4"></div></div>
-          <div class="candle"><div class="flame" id="flame5"></div></div>
-          <div class="candle"><div class="flame" id="flame6"></div></div>
-          <div class="candle"><div class="flame" id="flame7"></div></div>
-          <div class="candle"><div class="flame" id="flame8"></div></div>
-          <div class="candle"><div class="flame" id="flame9"></div></div>
+          <div class="candle"><div class="flame" id="f1"></div></div>
+          <div class="candle"><div class="flame" id="f2"></div></div>
+          <div class="candle"><div class="flame" id="f3"></div></div>
+          <div class="candle"><div class="flame" id="f4"></div></div>
+          <div class="candle"><div class="flame" id="f5"></div></div>
+          <div class="candle"><div class="flame" id="f6"></div></div>
+          <div class="candle"><div class="flame" id="f7"></div></div>
+          <div class="candle"><div class="flame" id="f8"></div></div>
+          <div class="candle"><div class="flame" id="f9"></div></div>
         </div>
       </div>
     </div>
 
     <div class="message" id="wishMessage">
-      <h2>Люблю! ❤️</h2>
-      <p>Пусть у тебя будет много вкусной еды, здоровья, счастья и денег.<br/>
-         Спасибо, что терпишь меня<br/>
-         Белек 💕</p>
+      <h2>Я ТОБОЙ ГОРЖУСЬ! 👑💩</h2>
+      <p>Надеюсь тебе понравилось<br>
+         Пусть все твои будущие какашки будут гладкими и без всякой драмы<br><br>
+         С любовью, твой фанат<br>
+         Белек ❤️</p>
     </div>
 
     <div class="mic-instruction">
-      🎤 Дай доступ к микрофону и задуй каждую свечку!
+      Дай доступ к микрофону и задуй свечи (или нажми на них)
     </div>
   </div>
 
+  <script src="script.js"></script>
+</body>
+</html>
   <script src="script.js"></script>
 </body>
 </html>
