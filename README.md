@@ -1,1 +1,1 @@
-# poop-card-edipulya
+# poop-card-dupllee
